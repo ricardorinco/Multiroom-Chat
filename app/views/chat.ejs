@@ -63,28 +63,12 @@
 	<div class="container">
 		<div class="row conversa" id="conversa">
 			<div class="col-md-1"></div>
-			<div class="col-md-10" id="dialogos">
-				
-			</div>
+			<div class="col-md-10" id="dialogos"></div>
 			<div class="col-md-1"></div>
 		</div>
 		<div class="row participantes" id="participantes" style="display:none">
 			<div class="col-md-1"></div>
-			<div class="col-md-10">
-				<span class="participante">
-						<img src="images/ico_usuario.png" />
-						Jorge
-					</span>
-
-				<span class="participante">
-						<img src="images/ico_usuario.png" />
-						José
-					</span>
-
-				<span class="participante">
-						<img src="images/ico_usuario.png" />
-						Fernando
-					</span>
+			<div class="col-md-10" id="pessoas">
 			</div>
 			<div class="col-md-1"></div>
 
@@ -97,6 +81,7 @@
 					<div class="input-group">
 						<input type="text" class="form-control" placeholder="Mensagem" id="message">
 						<input type="hidden" value="<%= data.nickname %>" id="nickname">
+						<input type="hidden" value="0" id="nicknameUpdated">
 						<span class="input-group-btn">
 							<button class="btn btn-default" type="button" id="send_message">></button>
 						</span>
@@ -111,14 +96,23 @@
 	<script src="/socket.io/socket.io.js"></script>
 	<script>
 		var socket = io('http://localhost:3000');
-		
+
 		$('#send_message').click(function () {
-			socket.emit(
-				'sendMessageFromServer',
-				{ nickname: $('#nickname').val(), message: $('#message').val() }
-			)
+			if ($('#message').val() != '') {
+				socket.emit(
+					'sendMessageFromServer',
+					{
+						nickname: $('#nickname').val(),
+						message: $('#message').val(),
+						nicknameUpdated: $('#nicknameUpdated').val()
+					}
+				);
+
+				$('#message').val('');
+				$('#nicknameUpdated').val('1');
+			}
 		});
-		
+
 		socket.on('reportNewMessage', function (data) {
 			var html = `
 				<div class="dialogo">
@@ -127,6 +121,23 @@
 				</div>
 			`;
 			$('#dialogos').append(html);
+
+			window.scrollTo(0, document.body.scrollHeight);
+		});
+
+		socket.on('reportNewUser', function (data) {
+			var html = `
+				<span class="participante">
+					<img src="images/ico_usuario.png" />
+					${data.nickname}
+				</span>
+			`;
+			$('#pessoas').append(html);
+		});
+
+		socket.on('estaDigitando', function (data) {
+			conversas.append(`<div class="dialogo digitando" data-digitando='${data.emissor}'><small>${data.emissor} ${data.mensagem}</small></div>`);
+			rolaPagina();
 		});
 	</script>
 </body>

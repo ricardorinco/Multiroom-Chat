@@ -14,8 +14,9 @@ io.on('connection', function (socket) {
     socket.on('disconnect', function () {
         console.log('usuário desconectou');
     });
-
+    
     socket.on('sendMessageFromServer', function (data) {
+        // Dialogo
         socket.emit(
             'reportNewMessage',
             { nickname: data.nickname, message: data.message }
@@ -24,5 +25,17 @@ io.on('connection', function (socket) {
             'reportNewMessage',
             { nickname: data.nickname, message: data.message }
         );
+
+        // Participantes
+        if (parseInt(data.nicknameUpdated) == 0) {
+            socket.emit(
+                'reportNewUser',
+                { nickname: data.nickname }
+            );
+            socket.broadcast.emit(
+                'reportNewUser',
+                { nickname: data.nickname }
+            );
+        }
     });
 });
