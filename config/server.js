@@ -14,10 +14,9 @@ server.use(express.static('./app/public'));
 server.use(bodyParser.urlencoded({ extended: true }));
 server.use(expressValidator());
 
-// Efetuando o auto-loading das rotas, models e controllers
+// Efetuando o auto-loading das rotas e controllers
 consign()
     .include('app/routes')
-    .then('app/models')
     .then('app/controllers')
     .into(server);
 

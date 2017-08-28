@@ -95,7 +95,7 @@
 	 crossorigin="anonymous"></script>
 	<script src="/socket.io/socket.io.js"></script>
 	<script>
-		var socket = io('http://localhost:3000');
+		var socket = io(`http://localhost:${location.port}`);
 
 		$('#send_message').click(function () {
 			if ($('#message').val() != '') {
@@ -133,11 +133,6 @@
 				</span>
 			`;
 			$('#pessoas').append(html);
-		});
-
-		socket.on('estaDigitando', function (data) {
-			conversas.append(`<div class="dialogo digitando" data-digitando='${data.emissor}'><small>${data.emissor} ${data.mensagem}</small></div>`);
-			rolaPagina();
 		});
 	</script>
 </body>
