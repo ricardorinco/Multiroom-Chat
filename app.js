@@ -20,5 +20,9 @@ io.on('connection', function (socket) {
             'reportNewMessage',
             { nickname: data.nickname, message: data.message }
         );
+        socket.broadcast.emit(
+            'reportNewMessage',
+            { nickname: data.nickname, message: data.message }
+        );
     });
 });

@@ -9,7 +9,7 @@ module.exports.chat = function (server, req, res) {
             if (!errors.isEmpty()) {
                 res.render('index', { validation: errors.array(), data: formData });
             } else {
-                server.get('io').emit('reportNewMessage', { nickname: formData.nickname, message: 'acabou de entrar no chat' });
+                server.get('io').emit('reportNewMessage', { nickname: formData.nickname, message: 'Olá pessoal, acabei de entrar no chat.' });
                 res.render('chat', { data: formData });
             }
         });

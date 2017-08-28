@@ -96,6 +96,7 @@
 				<div class="col-md-12">
 					<div class="input-group">
 						<input type="text" class="form-control" placeholder="Mensagem" id="message">
+						<input type="hidden" value="<%= data.nickname %>" id="nickname">
 						<span class="input-group-btn">
 							<button class="btn btn-default" type="button" id="send_message">></button>
 						</span>
@@ -114,15 +115,15 @@
 		$('#send_message').click(function () {
 			socket.emit(
 				'sendMessageFromServer',
-				{ nickname: '', message: $('#message').val() }
+				{ nickname: $('#nickname').val(), message: $('#message').val() }
 			)
 		});
 		
 		socket.on('reportNewMessage', function (data) {
 			var html = `
 				<div class="dialogo">
-					<h4>${data.nickname}</h4>
-					<p>${data.message}.</p>
+					<h4>${data.nickname} diz:</h4>
+					<p>${data.message}</p>
 				</div>
 			`;
 			$('#dialogos').append(html);
