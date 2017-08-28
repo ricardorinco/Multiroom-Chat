@@ -11,4 +11,6 @@ $ npm install
 $ npm run dev
 ```
 
-
+```sh
+$ http://localhost:3000
+```
