@@ -19,4 +19,5 @@ $ http://localhost:3000
 See [Multiroom](https://multiroom.herokuapp.com/)
 
 
-[![](http://www.codecheese.com/wp-content/uploads/heroku-logo.png)](https://www.heroku.com/)
+# Hosted by:
+[![](https://upload.wikimedia.org/wikipedia/en/a/a9/Heroku_logo.png)](https://www.heroku.com/)
